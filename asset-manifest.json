@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/SIYA_INTERVIEW2.O/static/css/main.17c3c436.css",
+    "main.js": "/SIYA_INTERVIEW2.O/static/js/main.96df7089.js",
+    "index.html": "/SIYA_INTERVIEW2.O/index.html",
+    "main.17c3c436.css.map": "/SIYA_INTERVIEW2.O/static/css/main.17c3c436.css.map",
+    "main.96df7089.js.map": "/SIYA_INTERVIEW2.O/static/js/main.96df7089.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.17c3c436.css",
+    "static/js/main.96df7089.js"
+  ]
+}
