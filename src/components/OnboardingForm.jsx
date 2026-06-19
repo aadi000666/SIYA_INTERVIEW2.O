@@ -28,6 +28,7 @@ export default function OnboardingForm({ onSubmit }) {
     experience: "Fresher",
     topic: "",
   });
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("MOCKMATE_API_KEY") || "");
   const [errors, setErrors] = useState({});
 
   const update = (key, val) => {
@@ -47,7 +48,10 @@ export default function OnboardingForm({ onSubmit }) {
   };
 
   const handleSubmit = () => {
-    if (validate()) onSubmit(form);
+    if (validate()) {
+      localStorage.setItem("MOCKMATE_API_KEY", apiKey.trim());
+      onSubmit(form);
+    }
   };
 
   return (
@@ -168,6 +172,25 @@ export default function OnboardingForm({ onSubmit }) {
             {errors.topic && (
               <span className="error-msg">{errors.topic}</span>
             )}
+          </div>
+
+          {/* API Key (Optional) */}
+          <div className="form-group full-width">
+            <label style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
+              <span>API Key (Gemini / Claude) (Optional) 🔑</span>
+              <span style={{ fontSize: "11px", opacity: 0.7, fontWeight: "normal" }}>
+                Live testing ke liye apni key use karein (saves locally in browser)
+              </span>
+            </label>
+            <input
+              type="password"
+              placeholder="Gemini (AIzaSy...) ya Claude (sk-ant-...) key paste karein"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              style={{
+                letterSpacing: apiKey ? "2px" : "normal"
+              }}
+            />
           </div>
         </div>
 

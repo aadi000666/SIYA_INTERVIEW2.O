@@ -48,7 +48,7 @@ export default function AIAvatar({ isSpeaking, isThinking, mood = "neutral" }) {
       {/* Main SVG face */}
       <div className="avatar-face">
           <img 
-            src="/siya-avatar.png" 
+            src={process.env.PUBLIC_URL + "/siya-avatar.png"} 
             alt="Siya" 
             style={{ 
               width: "120px", 

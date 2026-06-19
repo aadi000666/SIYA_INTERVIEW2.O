@@ -4,23 +4,33 @@
 // ============================================================
 
 // Key dynamically checks environment variables first, then defaults to the hardcoded value.
-const API_KEY = (typeof process !== "undefined" && process.env) ? (
-  process.env.REACT_APP_GEMINI_API_KEY ||
-  process.env.REACT_APP_CLAUDE_API_KEY ||
-  process.env.REACT_APP_API_KEY ||
-  "AIzaSyCpDlB7OaKD2mDUXb5QsrHhG3Jw9-Jdxf8"
-) : "AIzaSyCpDlB7OaKD2mDUXb5QsrHhG3Jw9-Jdxf8";
+export function getApiKey() {
+  const localKey = localStorage.getItem("MOCKMATE_API_KEY");
+  if (localKey) return localKey;
+  
+  if (typeof process !== "undefined" && process.env) {
+    return (
+      process.env.REACT_APP_GEMINI_API_KEY ||
+      process.env.REACT_APP_CLAUDE_API_KEY ||
+      process.env.REACT_APP_API_KEY ||
+      "AIzaSyCpDlB7OaKD2mDUXb5QsrHhG3Jw9-Jdxf8"
+    );
+  }
+  return "AIzaSyCpDlB7OaKD2mDUXb5QsrHhG3Jw9-Jdxf8";
+}
 
-const IS_GEMINI = API_KEY.startsWith("AIzaSy");
 const CLAUDE_MODEL = "claude-3-5-sonnet-20241022";
 const GEMINI_MODEL = "gemini-2.5-flash";
 
 const CLAUDE_URL = "https://api.anthropic.com/v1/messages";
-const getGeminiUrl = () => `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY}`;
+const getGeminiUrl = (key) => `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
 
 // ─── Core fetch wrapper ────────────────────────────────────
 async function callClaude(systemPrompt, userMessage, conversationHistory = []) {
-  if (IS_GEMINI) {
+  const apiKey = getApiKey();
+  const isGemini = apiKey.startsWith("AIzaSy");
+
+  if (isGemini) {
     // ─── Gemini Flow ──────────────────────────────────────
     const contents = [];
     
@@ -49,7 +59,7 @@ async function callClaude(systemPrompt, userMessage, conversationHistory = []) {
       }
     };
 
-    const response = await fetch(getGeminiUrl(), {
+    const response = await fetch(getGeminiUrl(apiKey), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -75,7 +85,7 @@ async function callClaude(systemPrompt, userMessage, conversationHistory = []) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": API_KEY,
+        "x-api-key": apiKey,
         "anthropic-version": "2023-06-01",
         "anthropic-dangerous-direct-browser-access": "true",
       },
