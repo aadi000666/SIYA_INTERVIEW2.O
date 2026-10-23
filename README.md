@@ -130,7 +130,8 @@ Made with ❤️ for students by Aadi
 
 ## 🌐 Live Deployment
 This project is configured with GitHub Actions to automatically deploy to GitHub Pages at:
-**https://aadi000666.github.io/SIYA_INTERVIEW2.O**
+**there some problem , solve the problem soon.**
+
 
 Every time you push changes to the `main` branch, the site will build and update automatically.
 
